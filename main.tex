@@ -1,0 +1,63 @@
+% !TEX TS-program = XeLaTeX
+% all document files must be coded in UTF-8
+\documentclass{plateau}
+
+\titlespacing{\section}{0pt}{*1}{*0}
+\titlespacing{\subsection}{0pt}{*0}{*0}
+\titlespacing{\subsubsection}{0pt}{*0}{*0}
+
+\journalname{PLATEAU}
+\thevolume{14}
+\thenumber{1}
+\theyear{2024}
+% DOI
+
+% Cut listings and put github link
+% Cut Additional Specifications and put it in github documentation 
+
+\articledoi{10.35699/1983-3652.yyyy.nnnnn}
+%\articleid{NNNN} % if the article ID is not the last 5 numbers of its DOI, provide it using \articleid{} commmand
+% Abbreviated author list for the running footer
+\runningauthor{A. Goyal, A. Potanin and J. Aldrich}
+\editorname{Sarah Chasins, Elena Glassman, and Joshua Sunshine}
+
+\title{A Comparative Study of Traditional versus Capability-Based Module
+Systems for Modern Programming Languages}
+% \othertitle{Subtitle} TODO
+
+% 2 pages - introduction
+% 2 pages - background (TODO)
+% 1 page - methodology (TODO)
+% 3 pages - study designs
+% 3 pages - results + conclusion
+
+
+\author[1]{Abhaas Goyal \orcid{0009-0008-5333-7324}}
+\author[2]{Alex Potanin \orcid{0000-0002-4242-2725}}
+\author[3]{Jonathan Aldrich \orcid{0000-0003-0631-5591}}
+
+\affil[1, 2]{Australian National University, Australia}
+\affil[3]{Carnegie Mellon University, USA}
+
+\addbibresource{refs.bib}
+
+\input{macros}
+
+\begin{document}
+\maketitle
+
+\input{chapters/0-abstract}
+
+\input{chapters/1-introduction}
+\input{chapters/2-background}
+\input{chapters/3-methodology}
+\input{chapters/4-content}
+\input{chapters/5-results}
+\input{chapters/6-conclusion}
+
+\printbibliography 
+
+\appendix
+\input{chapters/appendix}
+
+\end{document}

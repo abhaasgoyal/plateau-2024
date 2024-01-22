@@ -1,0 +1,84 @@
+\section{Results}\label{sec-results}
+
+% The scope of our results lies in validating these in future research.   
+\noindent
+After conducting the study with four participants, we now construct a thematic analysis and derive hypotheses for each research question. 
+
+\subsection{RQ1: Usability of capabilities in the language vs. library}
+
+% Mean solving time for all 4 participants for Rust and Wyvern. However, P1 mentioned at the end of the survey that switching up the order would be good.
+% Answer to survey questions - documentation for Wyvern in general, like rust libraries, influenced what they had to do
+
+\subsubsection{Understandability of existing code and Extensibility}
+
+% In particular, how could the \texttt{dyn} keyword be used for returning traits (when used with the \texttt{struct Box}?
+\noindent
+(P4) mentioned that understanding the code for Simple Money was highly complicated in Rust, even though they had past experience. In particular, it was related to \texttt{dyn} keyword and its use in traits. This proved to be much easier in Wyvern; however, it may be because Wyvern's implementation matches better with the original problem in terms of objects. Rust's implementation of Simple Money also had all three objects for building objects and their behavior: \texttt{trait}, \texttt{struct}, and \texttt{impl}, which in general, caused a higher cognitive load for the users. This confused the participant as to how different modules were interacting. Another major conceptual hurdle three participants found in Rust  was \texttt{.unwrap()} vs \texttt{?} operator (i.e.\ the \texttt{Option} vs \texttt{Result} type).
+
+In comparison, most concepts in Wyvern came more easily to participants. An example of this would be \texttt{var} vs.\ \texttt{val}. (P2, P4) mentioned they were easy to understand and helped them gain quicker results in Wyvern's implementation. However, there were some concepts in Wyvern that participants had difficulty understanding. A major one was the difference between \texttt{module def} and using plain \texttt{module} when defining abstractions. For \texttt{module def}, most participants were provided with the analogy of the parameters as constructors (data members) along with function definitions. However, (P1) raised an interesting question on \texttt{wordCloud}, where both \texttt{WordFactory.Word} and \texttt{WordFactory} types had been passed as parameters. They asked why both needed to be passed when only \texttt{Word} was needed in the implementation function. Here, the capability to access a value of type \texttt{WordFactory.Word} itself depends on whether we have the existing capability for \texttt{WordFactory} - thus following the rule of no ambient authority. Here, the Main module has to pass both the top-level capability object and sub-capability object to different modules. This could potentially lead to many parameters in module definitions in large systems, which can be considered as a case of \textit{\textbf{overhead}} of using capabilities.
+
+\subsubsection{Writing Syntax} 
+\noindent
+One of the hurdles faced by participants was that they needed to learn the language syntax better, so the process of writing up the correct syntax could have been faster for both languages. Even though tutorials were designed for each language to implement the specific question to improve productivity, they were limited in scope due to the time constraints of the study itself (we acknowledge this as a limitation of the study design). Although the intention of the study was designed for participants with a general computer science background, having some pre-reading on the documentation of the specific languages before the interview would save significant time and help with more complex studies. This could be achieved with a pre-survey on those specific languages before recruiting.
+
+(P1, P3) felt that a lot of the code in Rust was boilerplate in terms of using appropriate type definitions. This was due to Rust's complex set of borrowing rules. For example, (P1)'s implementation of the logger module's had to change the type of extension to mutable as well (since they structured their logger with the file reference instead of location, and \text{File} is mutable in \texttt{cap-std}. In comparison, users liked that they had to write less code in Wyvern without sacrificing stability. 
+
+Finally, users sometimes found it helpful to have code completion hints in Rust, of which none exist in Wyvern. However, participants faced no significant problems in terms of the time taken to write the program and complete the study on time. 
+
+\subsubsection{Errors and Debugging}
+% 4. Documentation a lack of documentation on Wyvern, which was not provided in the tutorial (such as the Option type for P4) stdlib (other than going to the source code itself)
+
+\noindent
+\textbf{Rust} Most of the participants found Rust's error messages to be helpful in figuring out bugs, but only once they understood the specific concept. A participant even mentioned that the error messages popping up and fixing them helped the participant learn the language in a short period of time. However, the author would like to be cautious about being totally dependent on errors generated by the compiler. For example, (P2) faced an error in Rust, which suggested that the error was related to invalid types; however, the actual error was that they had missed a semicolon (;) in the previous line. This simple error, with an unrelated message, took a lot of time for the participant to debug.
+
+\noindent
+\textbf{Wyvern} All participants noted that Wyvern was highly sensitive to bugs in lexical analysis and parsing, which made it hard to debug the exact cause of the issue. This has to do with Wyvern being in its initial stages of development. However, they used line numbers in the error message to estimate where the bug resided and tried to change the code on a trial-and-error basis. In cases where the participant could not solve the issue, we acted as the manual compiler and helped the participant fix errors in this case. It is also essential to see that Rust's documentation is more comprehensive than Wyvern's, with answers to specific questions on websites like StackOverflow. Hence, if the participant was stuck for a long in a problem with Wyvern, we acted as the StackOverflow entity in that scenario. One of the most common errors faced by participants was mismatching function/type definitions in Wyvern's specification and implementation. For example, (P3) realized that they needed to change the following module definition when creating connect: % 44:00
+
+\begin{minted}{rust}
+// Original code
+module def poolMaker(startIp: String, endIp: String, startPort: Int, endPort: Int): PoolMaker
+def connect(address: String, port: String): String 
+// Proposed change
+def connect(address: String, port: Int): String
+\end{minted}
+
+\noindent
+However, this change requires changes in \texttt{PoolMaker} module as well:
+\begin{minted}{rust}
+resource type PoolMaker
+   def connect(address: String, port: Int): String
+\end{minted}
+
+\noindent
+From the points above, we arrive at a hypothesis on the usability of capable and incapable languages: 
+
+\begin{hyp}[Usability]
+With fewer keywords in the language specification, Wyvern is easier to learn in terms of syntax. Furthermore, compared to Rust, it provides better structure in terms of reducing cognitive overhead when designing programs. However, there is a desire for (a) minimizing the capability overhead on expressing capabilities in terms of language syntax and (b) improving the debugging, documentation, and code completion, which accounts for factors in the lack of usability for the language.
+\end{hyp}
+
+\subsection{RQ2: Analysing Security of Capability-Designed Languages}
+\noindent
+In total, two types of vulnerabilities were found among the participants:
+\begin{itemize}
+    \item One of the participants found the vulnerability in Network Pool (\ref{sec:networkPool}) in Rust. They circumvented the need to use a specific Pool object by importing \texttt{cap-std} within the extension. When the extension function is called, they can now create a new Network Pool with \textbf{any} privilege and connect to the network from there. There are no checks by the network connector whether the extension module itself had the capability to access specific addresses. This could also be carried on for the Logger Editor Example in terms of file systems. The participant could not think of a solution in the time frame. Now, this raises an interesting point. The Main module has to look for all types of imports within the whole codebase. Based on that, trust the extension. However, this is not feasible in large software, where developers interact via function API documentation. This problem was not faced in Wyvern, which could provide a potential use case for using capability-based language design.
+    \item (P4) found a vulnerability in creating additional Minters in both Rust and Wyvern; however could not break the security of a single transaction. As such, both architectures were equally secure in terms of implementation. 
+\end{itemize}
+
+\noindent
+Thus, we reach the following hypothesis on the security of capable and incapable module systems: 
+
+\begin{hyp}[Security]
+It was seen that capabilities ensured additional levels of security compared to other modern programming languages in the context of trusting the API definition. However, to see wider adoption from language designers, more work is required to classify more security bugs that only capabilities can solve. 
+\end{hyp}
+\subsection{Threats to Validity}
+\noindent
+It should be noted that the hypotheses state are derived from preliminary results. Therefore, a more thorough study is required to validate them, which would address the following threats to validity:
+
+\noindent
+\textbf{Participants} All recruited participants were from the same institution, all of whom were recent graduates or undergraduates. We attempted to resolve this by having a brief pre-screening with the participants. We asked them general questions regarding computer science concepts, which would ensure that participants had the appropriate knowledge to implement concepts in the study. However, it should be seen that the participants did not have much experience with designing software architecture in the industry, which would lead to more security bugs in the underlying code and a limitation in detecting potential bugs. 
+
+\noindent
+\textbf{Prior Experience} Considering that Wyvern is currently under research and Rust is an upcoming language in the mainstream, not many people have had prior programming experience in the specific languages. This could have made programming slower.
+
+\noindent
+\textbf{Study Procedure}: Considering that we were asking the same subjects to break their own code, most of them (except one participant) could not think of a way on how to do this. The order in which these languages were studied is also important since participants already had a fair idea of the problem when implementing it in a different language. This could be one of the reasons why participants found it easier to code in Wyvern than in Rust. More anecdotal evidence conducted in a suitable design would answer this question. For this, a potential alternative study design is to give participants another participant's code to break the security (similar to pen testing in companies) since finding vulnerabilities from a different solution is from a different experience. % Citations?

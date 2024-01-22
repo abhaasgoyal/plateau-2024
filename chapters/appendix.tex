@@ -1,0 +1,40 @@
+\section{Appendix}\label{sec-appendix}
+
+\subsection{Post-study survery questions for Study Designs}
+\begin{enumerate}
+    \item How useful do you think capabilities are?
+    \item How much did you like working on Wyvern? 
+    \item How much did you like working on Rust?
+    \item How much did you think you understand the concept of capabilities?
+    \item What are some things that you would have wanted to improve in the survey if you had the chance to do it all over again? 
+\end{enumerate}
+
+\subsection{FileIO in Wyvern}
+
+\begin{minted}{rust}
+import fileSystem.BoundedReader
+import fileSystem.Writer
+import fileSystem.RandomAccessFile
+import fileSystem.BinaryReader
+import fileSystem.BinaryWriter
+resource type File
+    effect Read
+    effect Write
+    effect Append
+    def makeReader(): {} BoundedReader
+    def makeWriter(): {} Writer[{this.Write, this.Append}]
+    def makeAppender(): {} Writer[{this.Append}]
+    def makeBinaryReader(): {} BinaryReader
+    def makeBinaryWriter(): {} BinaryWriter
+    def makeRandomAccessFile(mode : String): {} RandomAccessFile
+\end{minted}
+\label{code:fileIOwyv}
+
+\subsection{Post-Study Survey}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=2.1in]{figures/Quant_Results.png}
+\caption{Quantitative Results for the Post-Study Survey (in order of questions asked in section \ref{sec:dataCollection}) }
+\label{quantresults}
+\end{figure}

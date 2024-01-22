@@ -1,0 +1,11 @@
+\begin{abstract}
+The principle of least privilege serves as an essential guideline in designing secure computing systems. However, implementing this in real-world systems through various programming languages has proved to be difficult and has allowed for many vulnerabilities in privilege escalation. One proposed solution is to have capability-based security primitives in programming languages for modules and objects. A capability is a unique token that provides the authority to perform a specific set of actions on a selected resource. However, its effectiveness as a language design choice for real-world applications remains to be seen.
+
+To answer this question, we designed a comparative study to compare programmer productivity, security of the designs, and extensibility of packages in capability-based module systems vs.\ others. Our main goal was to determine whether module systems/packages having capabilities from the ground up provide usability and security advantages compared to their absence. The study used two programming languages - one with object capabilities (Wyvern) and the other with support for capabilities via external libraries (Rust).
+
+Preliminary findings show that programs designed in Wyvern provided higher security guarantees in some cases, and users found using object capabilities an easy-to-use secure abstraction layer for managing critical resources. However, a lack of tooling for showing appropriate errors or code completion introduced challenges in writing code. Hence, future work requires a more in-depth study to define and validate current user-centric methods of designing capability-based languages. Further work also involves classifying security vulnerabilities solved by capabilities and building the necessary tools in Wyvern to make capabilities more viable as a design choice in programming languages.
+
+% TODO
+\keywords{Object Capabilities \sep Language-based Security \sep Module Systems \sep Rust \sep Wyvern}
+\end{abstract}
+

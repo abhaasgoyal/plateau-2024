@@ -1,0 +1,71 @@
+\section{Methodology}\label{sec-methodology}
+
+\noindent
+To gain insight into the usability of capable and incapable module systems, we set up a qualitative language usability study. For that, we applied for Human Ethics approval from ANU Research Information Enterprise System \cite{aries} for approval. The resulting methodology comprised the following aspects: 
+
+% Recruitment
+\noindent
+\textbf{Recruitment} Participants were recruited within the School of Computing at the Australian National University. The method of recruitment was to contact potential participants via email or face-to-face interaction. Some of the places include:
+\begin{itemize}
+    \item Personal/Professional connections
+    \item Face-to-face interactions with club members of the Computer Science Student Association (CSSA)
+    \item Students completing research in programming languages 
+\end{itemize}
+
+In recognition of the participant's time, we renumerated them with a AUD\$20 or AUD\$30 Westfield voucher, depending on availability.
+
+
+
+\vspace{-0.5em}
+% Participants
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{Participant} & \textbf{Background} & \textbf{Programming Experience} & \textbf{Task} \\
+\hline
+P1 & Parallel Systems   & 5 years & Logger Editor \\
+P2 & Systems/Security   & 7 years & Network Pool \\
+P3 & Formal Methods     & 3 years & Network Pool \\
+P4 & Data Science       & 5-6 years & Simple Money \\
+\hline
+\end{tabular}
+\end{center}
+\caption{\label{parDet} Participant Details}
+\end{table}
+% Years of programming experience
+\vspace{-1.5em}
+\noindent
+\textbf{Participants} Participants at ANU have been chosen because of close proximity to the place where the interviews had to be conducted. To maintain an appropriate level of experience and skills for the pilot study, senior undergraduate/postgraduate students were chosen. The participants should have the necessary background to be able to solve the proposed problem and answer questions during the interview time frame. They had chosen from varied backgrounds to get a more representative study for language designers. Their details are provided in Table \ref{parDet}.
+
+Considering that there are only four participants, the reader may assume a low number of participants is a threat to the validity of the result. However, previous successful studies using thematic analysis have been conducted with only four participants \cite{Huang2023}, and using think-aloud protocol with six participants \cite{whalley2014qualitative}. The papers had the central theme of designing the setup of the study design open-ended to conduct an in-depth analysis of individual studies; and screening tests of the participants. 
+
+% Procedure
+% think-aloud programming sessions with semi-structured interviews
+\noindent
+\textbf{Procedure}  We conducted the study in the format of a semi-structured interview and following the think-aloud protocol. A set of tasks were designed that can be given to either software architects or experienced software engineers that involved designing or extending a small product architecture. 
+
+We use the think-aloud protocol by building on studies done to understand novice programers' strategy who had little experience in programming (\cite{whalley2014qualitative},  \cite{lye2014review}). They partially apply in our case, considering the participants have had no experience in Wyvern, and two out of four participants had prior experience with Rust. However, it should be noted that our pre-screening of participants requires that they have the appropriate level of knowledge in computer science. \cite{whalley2014qualitative} also used narrative analysis, whereas this research project aims to generate results by thematic analysis. \cite{lye2014review} is in the context of developing computational thinking in general; however, our goal is much more specific - to use computational thinking at a higher abstraction level to design modular architectures.
+
+We asked participants to first use a language with support for modules and object capabilities (e.g. Wyvern), and then use a more traditional language with external capability libraries (e.g. Rust/Java) to design the same architecture. Documentation links related to standard capability libraries in Rust (\cite{libcaprust}, \cite{libcapdirrust}, \cite{librust}) were provided as starting points. After this, we asked them to break the security of the written program itself for any/both languages, to reveal potentially overlooked vulnerabilities. 
+
+Finally, we asked post-interview questions consisting of a survey (details of questions are provided in appendix \ref{sec-appendix}). The total length of each study was 90 minutes, with each section having a rough outline of the overall time distribution:
+\begin{enumerate}
+    \item \textbf{Rust and Wyvern Implementation} (60 mins)
+    \item \textbf{Trying to break security of the Program} (20 mins)
+    \item \textbf{Post-study survey} (10 mins)
+\end{enumerate}
+
+Occasionally, we took notes regarding how the discussion went, and marked points of potential interest to double down on when conducting thematic analysis. If a student was stuck on a part, we asked them to explain their thinking process using the think-aloud protocol.
+
+% Data collection
+ 
+\noindent
+\textbf{Data Collection} The data being collected was personal information about the interviewee's previous experience in software development, domain of expertise, and current role. During the interview, the information being collected was: (a) Screen recording of the desktop environment (b) Audio transcript (c) A survey at the end of the interview (full-list of questions provided in appendix \ref{sec-appendix}). \label{survey} \label{sec:dataCollection}
+
+
+% Analysis
+\noindent
+\textbf{Analysis} Thematic analsysis is now commonly used in the programming languages research community for various use cases, such as highlighting key challenges in language design \cite{Coblenz2023} and its tooling, and debugging \cite{Huang2023}. The main goals of the referenced studies also apply to our overarching topic of determining the suitability of a language for a given task.
+
+We conducted a thematic analysis of the code, audio-recorded interview and the post-interview survey to derive potential hypotheses. The analysis was conducted by keeping two major themes in mind: The usability of both languages and any Security Vulnerabilities that could have arisen. In our case, the procedure would look like the following: If one is taking an audio-recorded interview, the initial step is transcribing the sampled data. Our data sources also consist of screen sharing, so it is essential to mark points of interest (errors in code, completion, etc.) as well. The next step is to look for recurring themes from each interview. We follow this up in Section \ref{sec-results}.
