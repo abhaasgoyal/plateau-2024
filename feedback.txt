@@ -4,7 +4,7 @@ Will Crichton
 - I found Section 2.1 a little confusing. It introduces capability terminology like "ambient authority" without any explanation. It introduces a case study that isn't used anywhere else in the paper. I might consider using one of your actual tasks as motivation instead.
 - I was surprised that the study had three different tasks considering it only has four participants. My general preference is for small-N studies to have all the participants go through the same tasks --- that way you are eliminating at least one source of variation when interpreting the results.
 - I was also surprised that participants completed the same task in both Wyvern and Rust, and always in that order. I would expect that implementing the task in one language would influence how a participant would implement the task in the other language. In general, I would encourage you to consider experimental designs that limit cross-condition effects.
-- The designs of both Wyvern and the Rust cap-std library are quite important to understanding this study. I would consider explaining either in Section 2 or Section 4 how these technologies work, and how they differ in their approach to capabilities. 
+- [x] The designs of both Wyvern and the Rust cap-std library are quite important to understanding this study. I would consider explaining either in Section 2 or Section 4 how these technologies work, and how they differ in their approach to capabilities. 
 - I think the example capability vulnerability for Network Pool in Rust (Section 5.2) is misleading. The cap-std threat model explicitly excludes untrusted Rust code: "cap-std is not a sandbox for untrusted Rust code. Among other things, untrusted Rust code could use unsafe or the unsandboxed APIs in std::fs" (source). One could have analyzed the difference between the Wyvern and cap-std threat models without needing a user study, so I would focus on the implications of participants' respective abilities to find (or not find) vulnerabilities within a given threat model
 
 -------------------
@@ -13,34 +13,34 @@ Clément Pit-Claudel
 
 # A few typos
 
-- Page 1: “access-controlled lists”: “access-control lists”?
-- Page 2: “they do not support”: who is ‘they’?
-- Page 6: “passes Logger as a when creating wordCloud.”
-- Page 6: “impementation”
-- Page 6: “self-documenting cod”
+- [x] Page 1: “access-controlled lists”: “access-control lists”?
+- [-] Page 2: “they do not support”: who is ‘they’?
+- [-] Page 6: “passes Logger as a when creating wordCloud.”
+- [x] Page 6: “impementation”
+- [x] Page 6: “self-documenting cod”
 
 # Some hard-to-follow paragraphs
 
-- Page 1, “Initial attempts to achieve authority control…”
-- Page 2, “RQ 1” and the following few paragraphs: Definitions of key terms would help here (“architecture”, “formalized authority-control”)
-- Page 3: “However, Rust provides module systems that don’t have ambient authority, …”
-- Page 3: “If Bob does not have access to Carol” I think the roles changed here?  This doesn't seem consistent with Figure 2.
-- Page 3: “Capability Patterns: Sealer-Unsealer” This section doesn't feel connected to the previous one.
-- Page 10: “In the industry” or “in industry”?
-- Page 10: “finding vulnerabilities from a different solution is from a different experience” I don't understand this phrase.
+- [ ] Page 1, “Initial attempts to achieve authority control…”
+- [ ] Page 2, “RQ 1” and the following few paragraphs: Definitions of key terms would help here (“architecture”, “formalized authority-control”)
+- [ ] Page 3: “However, Rust provides module systems that don’t have ambient authority, …”
+- [ ] Page 3: “If Bob does not have access to Carol” I think the roles changed here?  This doesn't seem consistent with Figure 2.
+- [ ] Page 3: “Capability Patterns: Sealer-Unsealer” This section doesn't feel connected to the previous one.
+- [ ] Page 10: “In the industry” or “in industry”?
+- [ ] Page 10: “finding vulnerabilities from a different solution is from a different experience” I don't understand this phrase.
 
 # Some suggestions
 
-- Page 2: I think you could discuss Scala capabilities in more depth — they are very cool.
-- Page 2: It would be good to say a bit more about Wyvern
-- Figure 1: I would include the legend directly in Figure 2 and repeat it on every figure, to make it easy to read the other figures without flipping back.
-- Page 5 (footnote 1): Using a permanent URL here would make the paper more future-proof.
-- Page 6: I would make the receiver parameter explicit when you show a function call (e.g. `logFile.append_to_log(…)` instead of `append_to_log(…)`); otherwise mentions of the receiver are hard to understand (e.g. in “`append_to_log(entry : String)` - Append a new entry to the `logFile`” — which `logFile`?).
-- Figure 5: I wasn't immediately sure what the dotted circles meant.
-- Page 8: Receiver parameters again: I think `deposit(amount:Int,src:Purse):void` would become more readable if changed to `dst.deposit(amount:Int,src:Purse):void`.
-- Hypothesis 2: “that only capabilities can solve” seems too strong: perhaps “that capabilities are particularly suited to solve”?  (also, I would say that capabilities *prevent* bugs, not *solve* them)
-- Page 10: I would change “pen testing” to “penetration testing”
-- Throughout: the paper uses an uncommon citation style, with parentheses throughout.  I'd use [1] and [1, 2, 3] instead of ([1]) and ([1], [2], [3]).  In LaTeX I do that by giving `\cite` multiple references separated by `,` (e.g. `\cite{abc,def,ghi}`).
+- [-] Page 2: I think you could discuss Scala capabilities in more depth — they are very cool.
+- [-] Page 2: It would be good to say a bit more about Wyvern
+- [-] Figure 1: I would include the legend directly in Figure 2 and repeat it on every figure, to make it easy to read the other figures without flipping back.
+- [x] Page 5 (footnote 1): Using a permanent URL here would make the paper more future-proof.
+- [x] Page 6: I would make the receiver parameter explicit when you show a function call (e.g. `logFile.append_to_log(…)` instead of `append_to_log(…)`); otherwise mentions of the receiver are hard to understand (e.g. in “`append_to_log(entry : String)` - Append a new entry to the `logFile`” — which `logFile`?).
+- [x] Figure 5: I wasn't immediately sure what the dotted circles meant.
+- [x] Page 8: Receiver parameters again: I think `deposit(amount:Int,src:Purse):void` would become more readable if changed to `dst.deposit(amount:Int,src:Purse):void`.
+- [x] Hypothesis 2: “that only capabilities can solve” seems too strong: perhaps “that capabilities are particularly suited to solve”?  (also, I would say that capabilities *prevent* bugs, not *solve* them)
+- [x] Page 10: I would change “pen testing” to “penetration testing”
+- [x] Throughout: the paper uses an uncommon citation style, with parentheses throughout.  I'd use [1] and [1, 2, 3] instead of ([1]) and ([1], [2], [3]).  In LaTeX I do that by giving `\cite` multiple references separated by `,` (e.g. `\cite{abc,def,ghi}`).
 
 # Some miscellaneous comments:
 

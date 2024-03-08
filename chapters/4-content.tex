@@ -2,7 +2,7 @@
 \noindent
 The overall study consists of three parts. In each part, we ask participants to implement specific parts of the architecture using capabilities via external libraries or via module systems in languages. Each part was designed to primarily test one of the facets of the overall goal (usability, extensibility, and security); however, all facets were considered in the analysis of each part.
 
-Each study part was divided into three steps for participants - designing the initial architecture, finding vulnerabilities, and the post-study survey.\footnote{Code templates for the studies are available at \url{https://github.com/abhaasgoyal/module-systems}} 
+Each study part was divided into three steps for participants - designing the initial architecture, finding vulnerabilities, and the post-study survey.\footnote{Code templates for the studies are available at \url{https://github.com/abhaasgoyal/module-systems/tree/plateau-2024}} 
 
 \subsection{Logger Editor} \label{sec:loggerEditor}
 \begin{figure}[htbp]
@@ -16,7 +16,7 @@ Each study part was divided into three steps for participants - designing the in
 
 % https://drops.dagstuhl.de/opus/volltexte/2017/7270/pdf/LIPIcs-ECOOP-2017-20.pdf
 \noindent
-\textbf{Background} In figure \ref{loggerEditor}, the \texttt{Main} application has a \texttt{Logger} module that it can trust. The logger module has access to \texttt{FileIO}, providing it the authority to read/write to files. However, there also exists an extension named \texttt{wordCloud} module, which needs to utilize the \texttt{Logger} library to read/write to a place that only \texttt{Logger} can allow. Here, \texttt{Main} passes \texttt{Logger} as a when creating \texttt{wordCloud}. The goal of the user is to design \texttt{Logger} in such a way that \texttt{WordExt} does not have access to the underlying module \texttt{fileIO} and, in the process, escalate its privilege.
+\textbf{Background} In figure \ref{loggerEditor}, the \texttt{Main} application has a \texttt{Logger} module that it can trust. The logger module has access to \texttt{FileIO}, providing it the authority to read/write to files. However, there also exists an extension named \texttt{wordCloud} module, which needs to utilize the \texttt{Logger} library to read/write to a place that only \texttt{Logger} can allow. Here, \texttt{Main} passes \texttt{Logger} when creating \texttt{wordCloud}. The goal of the user is to design \texttt{Logger} in such a way that \texttt{WordExt} does not have access to the underlying module \texttt{fileIO} and, in the process, escalate its privilege.
 
 % \noindent
 % \textbf{Additional Specifications}
@@ -36,7 +36,7 @@ The implementation in Rust was based on the \texttt{cap-std} module \cite{rustCa
 
 \begin{itemize}
     \item \mintinline{Rust}{create_logger(logFile: String)} - A constructor which returns a new logger object with the name logFile
-    \item \mintinline{rust}{append_to_log(entry : String)} - Append a new entry to the logFile
+    \item \mintinline{rust}{logFile.append_to_log(entry : String)} - Append a new entry to the logFile
 \end{itemize}
 
 
@@ -45,7 +45,7 @@ Given a possibly malicious \mintinline{Rust}{extension.rs}, design the correspon
 \noindent
 \textbf{Wyvern Implementation} The extension library is \texttt{wordCloud}, and the users need to design the logger library from scratch with the \texttt{appendLog} function. Since capabilities are hierarchical here, the users were given a more open-ended specification of the parameters of the logger library; the solution is that the underlying \texttt{fileIO} system resource is passed exclusively to the logger from Main.
 
-There was no developer-friendly documentation available for Wyvern's standard I/O library, so we provided the impementation, hoping that it will act as self-documenting cod. The required method definitions for \texttt{fileIO} are provided in listing \ref{code:fileIOwyv}.
+There was no developer-friendly documentation available for Wyvern's standard I/O library, so we provided the implementation, hoping that it will act as self-documenting code. The required method definitions for \texttt{fileIO} are provided in listing \ref{code:fileIOwyv}.
 
 \noindent
 \textbf{Trying to Break security} Upon completing the corresponding functions, users were asked to find a way to bypass the restriction of accessing \texttt{fileIO} in the corresponding programs, while only modifying \texttt{Extension.rs} (for Rust) and \texttt{wordCloud} module (for Wyvern).
@@ -55,7 +55,7 @@ There was no developer-friendly documentation available for Wyvern's standard I/
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=2.8in]{figures/network.jpg}
-\caption{Network Pool}
+\caption{Network Pool (A dotted circle is the capability to connect to a specific device)}
 \label{fig:network}
 \end{figure}
 
@@ -113,10 +113,10 @@ The architecture (figure \ref{fig:simpleMoney}) consisted of the main entity \te
 \noindent
 The participant is given implementations of the Sealer and Unsealer primitives, as well as the Mint object (steps (1)-(2) in the diagram). The user tasks for both languages were to securely transfer money via an intermediate Purse Object with the Sealer-Unsealer pattern. The purse should have the following methods:
 \begin{enumerate}
-    \item \mintinline{rust}{getBalance(): Int} - Get the current balance in the purse  
+    \item \mintinline{rust}{purse.getBalance(): Int} - Get the current balance in the purse  
     \item \mintinline{rust}{sprout(): Purse} - Create a new empty purse 
     \item \mintinline{rust}{getDecr(): SealedBox[Int -> void]} - Get a sealed version of \texttt{decr}. A hint was provided that should be used to validate (T4) during a \texttt{deposit} to Bob's purse. \texttt{decr} is a function that subtracts the balance in the current Purse
-    \item \mintinline{rust}{deposit(amount:Int,src:Purse):void} - Securely transmits money from one wallet to another
+    \item \mintinline{rust}{dst.deposit(amount:Int,src:Purse):void} - Securely transmits money from one wallet to another
     \item \mintinline{rust}{print():void} - (Optional) Print debugging information
 \end{enumerate}
 
